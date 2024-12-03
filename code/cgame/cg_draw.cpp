@@ -2513,6 +2513,21 @@ static void CG_DrawSpeed( void ) {
 }
 
 /*
+===============
+CG_DrawPickups
+===============
+*/
+static float CG_DrawPickups(float y) {
+	const char* secrets_string = va("Pickups %i/%i",
+		cg_entities[0].gent->client->sess.missionStats.pickupsFound,
+		cg_entities[0].gent->client->sess.missionStats.totalPickups
+		);
+	const int width = cgi_R_Font_StrLenPixels(secrets_string, cgs.media.qhFontMedium, 1.0f);
+	cgi_R_Font_DrawString(635 - width, y + 2, secrets_string, colorTable[CT_LTGOLD1], cgs.media.qhFontMedium, -1, 1.0f);
+	return y + BIGCHAR_HEIGHT + 10;
+}
+
+/*
 ====================
 CG_DrawStrafeHelper
 ====================
@@ -2666,6 +2681,9 @@ static void CG_Draw2D( void )
 	}
 	if (cg_drawSecrets.integer) {
 		y=CG_DrawSecrets(y);
+	}
+	if (cg_drawPickups.integer) {
+		y = CG_DrawPickups(y);
 	}
 	if (cg_drawSnapshot.integer) {
 		y=CG_DrawSnapshot(y);
