@@ -332,6 +332,8 @@ typedef struct missionStats_s
 	int				otherAttacksCnt;				// # of times anything else on a monster was hit with saber
 	int				forceUsed[NUM_FORCE_POWERS];	// # of times each force power was used
 	int				weaponUsed[WP_NUM_WEAPONS];		// # of times each weapon was used
+	int				pickupsFound;					// # number of times a pickup was collected
+	int				totalPickups;					// # number of pickups at map load
 } missionStats_t;
 
 // the auto following clients don't follow a specific client

@@ -563,8 +563,17 @@ void G_InitCvars( void ) {
 	g_numEntities = gi.cvar( "g_numEntities", "0", CVAR_CHEAT );
 	
 	gi.cvar( "newTotalSecrets", "0", CVAR_ROM );
+	gi.cvar( "newTotalPickups", "0", CVAR_ROM );
 	gi.cvar_set("newTotalSecrets", "0");//used to carry over the count from SP_target_secret to ClientBegin
+	gi.cvar_set("newTotalPickups", "0");
 	g_iscensored = gi.cvar( "ui_iscensored", "0", CVAR_ARCHIVE|CVAR_ROM|CVAR_INIT|CVAR_CHEAT|CVAR_NORESTART );
+}
+
+void applyPickupCountOverride(const char *mapName) {
+	//EWWWWWWWWWWWWWWWWWWWWWWWWWWW
+	if (!Q_stricmp(mapName, "kejim_post")) {
+		gi.cvar_set("newTotalPickups", "2");
+	}
 }
 
 /*
@@ -600,6 +609,8 @@ void InitGame(  const char *mapname, const char *spawntarget, int checkSum, cons
 	G_InitCvars();
 
 	G_InitMemory();
+
+	applyPickupCountOverride(mapname);
 
 	// set some level globals
 	memset( &level, 0, sizeof( level ) );

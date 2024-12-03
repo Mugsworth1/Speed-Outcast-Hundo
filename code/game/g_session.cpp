@@ -55,7 +55,9 @@ void G_WriteClientSessionData( gclient_t *client ) {
 			client->sess.missionStats.legAttacksCnt,
 			client->sess.missionStats.armAttacksCnt,
 			client->sess.missionStats.torsoAttacksCnt,
-			client->sess.missionStats.otherAttacksCnt
+			client->sess.missionStats.otherAttacksCnt,
+			client->sess.missionStats.pickupsFound,
+			client->sess.missionStats.totalPickups
 			);
 
 	var = va( "missionstats%i", client - level.clients );

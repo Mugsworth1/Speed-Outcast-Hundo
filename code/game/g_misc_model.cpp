@@ -326,7 +326,9 @@ void GunRackAddItem( gitem_t *gun, vec3_t org, vec3_t angs, float ffwd, float fr
 		VectorCopy( angs, it_ent->s.angles );
 
 		// by doing this, we can force the amount of ammo we desire onto the weapon for when it gets picked-up
-		it_ent->flags |= ( FL_DROPPED_ITEM | FL_FORCE_PULLABLE_ONLY );
+		//it_ent->flags |= ( FL_DROPPED_ITEM | FL_FORCE_PULLABLE_ONLY );
+		//Don't set dropped item flag on gunrack items as it means we can't really track pickups
+		it_ent->flags |= FL_FORCE_PULLABLE_ONLY;
 		it_ent->physicsBounce = 0.1f;
 
 		for ( int t = 0; t < 3; t++ )

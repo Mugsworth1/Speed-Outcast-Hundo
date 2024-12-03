@@ -574,6 +574,16 @@ void Touch_Item (gentity_t *ent, gentity_t *other, trace_t *trace) {
 		return;
 	}
 
+	//increment pickup counter
+	if ( ~ent->flags & FL_DROPPED_ITEM) {
+		if (!Q_stricmp(other->classname, "player")) {
+			cg_entities[0].gent->client->sess.missionStats.pickupsFound += 1;
+		}
+		else {
+			1 == 1; //For debug
+		}
+	}
+
 	// play the normal pickup sound
 	if ( !other->s.number && g_timescale->value < 1.0f  )
 	{//SIGH... with timescale on, you lose events left and right
@@ -783,6 +793,8 @@ void FinishSpawningItem( gentity_t *ent ) {
 	gitem_t		*item;
 	int			itemNum;
 
+	int totalPickups = gi.Cvar_VariableIntegerValue("newTotalPickups");
+	gi.cvar_set("newTotalPickups", va("%i", gi.Cvar_VariableIntegerValue("newTotalPickups")+1));
 	itemNum=1;
 	for ( item = bg_itemlist + 1 ; item->classname ; item++,itemNum++) 
 	{
