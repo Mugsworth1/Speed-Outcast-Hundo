@@ -581,6 +581,7 @@ void ClientBegin( int clientNum, usercmd_t *cmd, SavedGameJustLoaded_e eSavedGam
 		memset( &client->sess.missionStats, 0, sizeof( client->sess.missionStats ) );
 		client->sess.missionStats.totalSecrets = gi.Cvar_VariableIntegerValue("newTotalSecrets");
 		client->sess.missionStats.totalPickups = gi.Cvar_VariableIntegerValue("newTotalPickups");
+		client->sess.missionStats.totalCheckpoints = gi.Cvar_VariableIntegerValue("newTotalCheckpoints");
 		
 		// locate ent at a spawn point
 		if ( ClientSpawn( ent, eSavedGameJustLoaded) )	// SavedGameJustLoaded_e

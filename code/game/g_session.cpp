@@ -128,7 +128,9 @@ void G_ReadSessionData( gclient_t *client ) {
 		&client->sess.missionStats.legAttacksCnt,
 		&client->sess.missionStats.armAttacksCnt,
 		&client->sess.missionStats.torsoAttacksCnt,
-		&client->sess.missionStats.otherAttacksCnt);
+		&client->sess.missionStats.otherAttacksCnt,
+		&client->sess.missionStats.checkpointsHit,
+		&client->sess.missionStats.totalCheckpoints);
 
 
 	var = va( "sessionpowers%i", client - level.clients );

@@ -793,7 +793,6 @@ void FinishSpawningItem( gentity_t *ent ) {
 	gitem_t		*item;
 	int			itemNum;
 
-	int totalPickups = gi.Cvar_VariableIntegerValue("newTotalPickups");
 	gi.cvar_set("newTotalPickups", va("%i", gi.Cvar_VariableIntegerValue("newTotalPickups")+1));
 	itemNum=1;
 	for ( item = bg_itemlist + 1 ; item->classname ; item++,itemNum++) 

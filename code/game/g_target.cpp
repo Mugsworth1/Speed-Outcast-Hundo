@@ -1035,7 +1035,7 @@ void target_autosave_use(gentity_t *self, gentity_t *other, gentity_t *activator
 	G_ActivateBehavior(self,BSET_USE);
 	//gi.SendServerCommand( NULL, "cp @INGAME_CHECKPOINT" );
 	CG_CenterPrint( "@INGAME_CHECKPOINT", SCREEN_HEIGHT * 0.25 );	//jump the network
-
+	cg_entities[0].gent->client->sess.missionStats.checkpointsHit += 1;
 //	if (self->spawnflags & 1)
 		gi.SendConsoleCommand( "wait 2;save auto*\n" );
 }
@@ -1048,6 +1048,7 @@ void SP_target_autosave( gentity_t *self )
 {
 	G_SetOrigin( self, self->s.origin );
 	self->e_UseFunc = useF_target_autosave_use;
+	gi.cvar_set("newTotalCheckpoints", va("%i", gi.Cvar_VariableIntegerValue("newTotalCheckpoints") + 1));
 }
 
 void target_secret_use(gentity_t *self, gentity_t *other, gentity_t *activator)

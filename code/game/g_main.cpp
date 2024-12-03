@@ -564,8 +564,10 @@ void G_InitCvars( void ) {
 	
 	gi.cvar( "newTotalSecrets", "0", CVAR_ROM );
 	gi.cvar( "newTotalPickups", "0", CVAR_ROM );
+	gi.cvar( "newTotalCheckpoints", "0", CVAR_ROM );
 	gi.cvar_set("newTotalSecrets", "0");//used to carry over the count from SP_target_secret to ClientBegin
 	gi.cvar_set("newTotalPickups", "0");
+	gi.cvar_set("newTotalCheckpoints", "0");
 	g_iscensored = gi.cvar( "ui_iscensored", "0", CVAR_ARCHIVE|CVAR_ROM|CVAR_INIT|CVAR_CHEAT|CVAR_NORESTART );
 }
 

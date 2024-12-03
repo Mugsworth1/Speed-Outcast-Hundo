@@ -334,6 +334,8 @@ typedef struct missionStats_s
 	int				weaponUsed[WP_NUM_WEAPONS];		// # of times each weapon was used
 	int				pickupsFound;					// # number of times a pickup was collected
 	int				totalPickups;					// # number of pickups at map load
+	int				checkpointsHit;					// # number of times a checkpoint was hit
+	int				totalCheckpoints;				// # number of checkpoints at map load
 } missionStats_t;
 
 // the auto following clients don't follow a specific client
