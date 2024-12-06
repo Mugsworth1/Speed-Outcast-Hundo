@@ -575,7 +575,8 @@ void Touch_Item (gentity_t *ent, gentity_t *other, trace_t *trace) {
 	}
 
 	//increment pickup counter
-	if ( ~ent->flags & FL_DROPPED_ITEM) {
+	//Only include items not dropped by NPCs
+	if ( ~ent->flags & FL_DROPPED_ITEM || Q_stricmp(ent->ownername, "NPC")) {
 		if (!Q_stricmp(other->classname, "player")) {
 			cg_entities[0].gent->client->sess.missionStats.pickupsFound += 1;
 		}
@@ -634,7 +635,7 @@ LaunchItem
 Spawns an item and tosses it forward
 ================
 */
-gentity_t *LaunchItem( gitem_t *item, vec3_t origin, vec3_t velocity, char *target ) {
+gentity_t *LaunchItem( gitem_t *item, vec3_t origin, vec3_t velocity, char *target, boolean droppedByNPC ) {
 	gentity_t	*dropped;
 
 	dropped = G_Spawn();
@@ -706,6 +707,15 @@ gentity_t *LaunchItem( gitem_t *item, vec3_t origin, vec3_t velocity, char *targ
 
 	gi.linkentity (dropped);
 
+	//Use ownername property to track if prev owner was an NPC so we know whether to count it later
+	if (droppedByNPC)
+	{
+		dropped->ownername = "NPC";
+	}
+	else {
+		dropped->ownername = "crate"; //Prevent nullptrs
+	}
+
 	return dropped;
 }
 
@@ -728,14 +738,16 @@ gentity_t *Drop_Item( gentity_t *ent, gitem_t *item, float angle, qboolean copyt
 	AngleVectors( angles, velocity, NULL, NULL );
 	VectorScale( velocity, 150, velocity );
 	velocity[2] += 200 + crandom() * 50;
+
+	boolean droppedByNPC = !Q_stricmp(ent->classname, "NPC");
 	
 	if ( copytarget )
 	{
-		dropped = LaunchItem( item, ent->s.pos.trBase, velocity, ent->opentarget );
+		dropped = LaunchItem( item, ent->s.pos.trBase, velocity, ent->opentarget, droppedByNPC );
 	}
 	else
 	{
-		dropped = LaunchItem( item, ent->s.pos.trBase, velocity, NULL );
+		dropped = LaunchItem( item, ent->s.pos.trBase, velocity, NULL, droppedByNPC );
 	}
 
 	dropped->activator = ent;//so we know who we belonged to so they can pick it back up later

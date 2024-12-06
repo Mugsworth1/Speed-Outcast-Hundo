@@ -678,7 +678,7 @@ BATTERIES -
 "splashDamage" - damage to do within explode range ( default 1 )
 
 */
-extern gentity_t *LaunchItem( gitem_t *item, vec3_t origin, vec3_t velocity, char *target );
+extern gentity_t *LaunchItem( gitem_t *item, vec3_t origin, vec3_t velocity, char *target, boolean droppedByNPC );
 
 void misc_model_cargo_die( gentity_t *self, gentity_t *inflictor, gentity_t *attacker, int damage, int mod, int dFlags, int hitLoc )
 {
@@ -709,7 +709,7 @@ void misc_model_cargo_die( gentity_t *self, gentity_t *inflictor, gentity_t *att
 			temp[0] = org[0] + crandom() * 8 + 16;
 			temp[1] = org[1] + crandom() * 8 + 16;
 
-			LaunchItem( health, temp, (float *)vec3_origin, NULL );
+			LaunchItem( health, temp, (float *)vec3_origin, NULL, false);
 		}
 	}
 	if (( flags & DROP_SHIELDS ))
@@ -721,7 +721,7 @@ void misc_model_cargo_die( gentity_t *self, gentity_t *inflictor, gentity_t *att
 			temp[0] = org[0] + crandom() * 8 - 16;
 			temp[1] = org[1] + crandom() * 8 + 16;
 
-			LaunchItem( shields, temp, (float *)vec3_origin, NULL );
+			LaunchItem( shields, temp, (float *)vec3_origin, NULL, false);
 		}
 	}
 
@@ -734,7 +734,7 @@ void misc_model_cargo_die( gentity_t *self, gentity_t *inflictor, gentity_t *att
 			temp[0] = org[0] + crandom() * 8 - 16;
 			temp[1] = org[1] + crandom() * 8 - 16;
 
-			LaunchItem( bacta, temp, (float *)vec3_origin, NULL );
+			LaunchItem( bacta, temp, (float *)vec3_origin, NULL, false);
 		}
 	}
 
@@ -747,7 +747,7 @@ void misc_model_cargo_die( gentity_t *self, gentity_t *inflictor, gentity_t *att
 			temp[0] = org[0] + crandom() * 8 + 16;
 			temp[1] = org[1] + crandom() * 8 - 16;
 
-			LaunchItem( batteries, temp, (float *)vec3_origin, NULL );
+			LaunchItem( batteries, temp, (float *)vec3_origin, NULL, false);
 		}
 	}
 }

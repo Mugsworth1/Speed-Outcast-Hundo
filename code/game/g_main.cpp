@@ -572,7 +572,10 @@ void G_InitCvars( void ) {
 void applyPickupCountOverride(const char *mapName) {
 	//EWWWWWWWWWWWWWWWWWWWWWWWWWWW
 	if (!Q_stricmp(mapName, "kejim_post")) {
-		gi.cvar_set("newTotalPickups", "2");
+		gi.cvar_set("newTotalPickups", "4"); //Items spawned by scripts that don't get picked up on level load
+	}
+	if (!Q_stricmp(mapName, "artus_mine")) {
+		gi.cvar_set("newTotalPickups", "-6"); //Items inside boxes that we can't destroy
 	}
 }
 
