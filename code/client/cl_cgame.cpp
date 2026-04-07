@@ -823,6 +823,13 @@ Ghoul2 Insert End
 		}
 		return strlen(text);
 		//break;
+	// Speed Outcast
+	case CG_REPORT_LAST_PMOVE_FRAMETIME:
+		CL_ReportLastPmoveFrametime(args[1]);
+		break;
+	case CG_OVERBOUNCE_PROBABILITY:
+		return CL_OverbounceProbability(VMF(1), VMF(2), VMF(3)) * 10000.0f;
+		break;
 	case CG_SPEEDRUN_PAUSE_TIMER:
 		SpeedrunPauseTimer(args[1]);
 		break;
@@ -841,6 +848,12 @@ Ghoul2 Insert End
 	case CG_SPEEDRUN_GET_LEVEL_TIME_MILLISECONDS:
 		return SpeedrunGetLevelTimeMilliseconds();
 		break;
+	case CG_R_SET_PLAYER_JUMP_START_Z_WORLD:
+		re.SetPlayerJumpStartWorldZ(VMF(1));
+		return 0;
+	case CG_R_SET_PLAYER_JUMP_HEIGHT:
+		re.SetPlayerJumpHeight(VMF(1));
+		return 0;
 	default:
 		Com_Error( ERR_DROP, "Bad cgame system trap: %i", args[0] );
 	}
@@ -1051,6 +1064,20 @@ void CL_FirstSnapshot( void ) {
 	RE_RegisterMedia_LevelLoadEnd();
 
 	cls.state = CA_ACTIVE;
+	SpeedrunUnpauseTimer();
+	if (sv.timeBeforeLoad > 0 && sv.timeBeforeLoad < sv.time) {
+		// sv.timeBeforeLoad > 0 means that we loaded back into the past on the
+		// same map as before.
+		// sv.timeBeforeLoad < sv.time means that connecting to the server and
+		// getting this first snapshot took so long that we are now ahead of the
+		// last time from before we loaded.
+		// As we paused the speedrun timer during all of this, we basically
+		// jumped into the future without that time being tracked. To fix that,
+		// we have to add this difference to the timer.
+		const int msec_add = sv.time - sv.timeBeforeLoad;
+		SpeedrunTimerAddMilliseconds(msec_add);
+	}
+	sv.timeBeforeLoad = 0;
 
 	// set the timedelta so we are exactly on this first frame
 	cl.serverTimeDelta = cl.frame.serverTime - cls.realtime;
